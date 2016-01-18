@@ -1,5 +1,6 @@
 package com.security.oauth2.controllers;
 
+import com.google.common.collect.Lists;
 import com.security.oauth2.model.AccessCode;
 import com.security.oauth2.model.GetAccessTokenRequest;
 import com.security.oauth2.repository.OauthClientsDetailsRepository;
@@ -71,6 +72,7 @@ public class OauthController {
     private String getAccessCode(String username, String password) {
 
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.put("Content-Type", Lists.newArrayList(MediaType.APPLICATION_JSON_VALUE));
         List<String> auth = new ArrayList<>();
 
         String plainCreds = username + ":" + password;

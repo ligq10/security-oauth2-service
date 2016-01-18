@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.usersByUsernameQuery(
 						"select login_name, password, enabled from user where login_name=?")
 				.authoritiesByUsernameQuery(
-						"select user.login_name, role.name from user inner join user_roles on user.uuid = user_roles.user_id inner join role on role.uuid=user_roles.roles_id where login_name=?");
+						"select user.login_name, role.code,role.name from user inner join user_roles on user.uuid = user_roles.user_id inner join role on role.uuid=user_roles.role_id where login_name=?");
 	}
 
     @Override
