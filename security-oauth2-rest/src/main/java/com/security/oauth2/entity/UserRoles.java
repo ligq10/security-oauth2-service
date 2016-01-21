@@ -27,17 +27,24 @@ public class UserRoles  implements Serializable{
 	private String uuid;
 
 	@Column(name = "user_id")
-	private UUID userId;
+	private String userId;
 	
 	@Column(name = "role_id")
 	private String roleId;
+	
+	public String getUuid() {
+		return uuid;
+	}
 
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 
-	public UUID getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(UUID userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

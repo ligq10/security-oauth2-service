@@ -1,5 +1,10 @@
 package com.security.oauth2.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class RegisterUser {
 
     private String loginName;
@@ -8,6 +13,8 @@ public class RegisterUser {
 
     private String checkCode;
 
+    private List<String> roleCodes;
+    
     public String getLoginName() {
         return loginName;
     }
@@ -31,4 +38,13 @@ public class RegisterUser {
     public void setCheckCode(String checkCode) {
         this.checkCode = checkCode;
     }
+
+	public List<String> getRoleCodes() {
+		return roleCodes;
+	}
+
+	public void setRoleCodes(List<String> roleCodes) {
+		this.roleCodes = roleCodes;
+	}
+    
 }

@@ -2,31 +2,21 @@ package com.security.oauth2.repository;
 
 import com.security.oauth2.entity.Role;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 @RepositoryRestResource(path = "roles", collectionResourceRel = "roles")
-public interface RoleRepository extends CrudRepository<Role, String>{
+public interface RoleRepository extends PagingAndSortingRepository<Role, String>{
 
     @RestResource(exported = false)
-    Role findByName(String name);
-
-    @Override
-    Role save(Role entity);
-
-    @Override
-    Role findOne(String s);
-
-    @Override
-    Iterable<Role> findAll();
-
-    @Override
-    @PreAuthorize("hasAuthority('USER_MANAGER')")
-    void delete(String s);
-
-    @Override
-    @PreAuthorize("hasAuthority('USER_MANAGER')")
-    void delete(Role entity);
+    public Role findByCode(String code);
+    
+	@RestResource(exported = false)
+	@Query(value = "select t from Role t where  t.code like %:keyword% or t.name like %:keyword%")
+	public Page<Role> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
 }

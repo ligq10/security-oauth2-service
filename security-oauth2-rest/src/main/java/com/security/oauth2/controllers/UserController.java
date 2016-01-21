@@ -3,18 +3,21 @@ package com.security.oauth2.controllers;
 
 
 
-import com.security.oauth2.entity.Role;
 import com.security.oauth2.entity.User;
 import com.security.oauth2.model.*;
 import com.security.oauth2.repository.RoleRepository;
 import com.security.oauth2.repository.UserRepository;
+import com.security.oauth2.service.UserService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,45 +29,45 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.Date;
-import java.util.List;
-
-
-
-
-
 import static com.google.common.collect.Lists.newArrayList;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @Controller
 public class UserController {
-	//@Autowired
-	//private KafkaProducerConfiguration kafkaProducerConfiguration;
+	private final static Logger logger = LoggerFactory.getLogger(UserController.class); 
+
     @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private UserService userService;
 
     private static final String USER_ROLE = "USER";
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public HttpEntity<?> register(@RequestBody RegisterUser registerUser, HttpServletResponse response){
+    public HttpEntity<?> register(
+    		@RequestBody RegisterUser registerUser,
+    		HttpServletRequest request,
+    		HttpServletResponse response){
         if (StringUtils.isEmpty(registerUser.getLoginName()) || StringUtils.isEmpty(registerUser.getPassword()) || !isValidCheckCode(registerUser.getCheckCode())){
             return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
         }
-        User user = new User();
-        user.setLoginName(registerUser.getLoginName());
-        user.setPassword(registerUser.getPassword());
-        user.setEnabled(true);
-        Role role = roleRepository.findByName(USER_ROLE);
-        userRepository.save(newArrayList(user));
-        response.setHeader("Location", "/security/users/" + user.getUuid());
-        //UserEvent.UserRegisteredEvent(user, kafkaProducerConfiguration);
-        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+        
+		ResponseEntity<Object> responseEntity =  null;		
+		try {	        
+	        responseEntity=userService.save(registerUser,request,response);			
+		} catch (Exception e) {			
+			logger.error(e.getMessage(),e);
+			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			
+		}			
+		return responseEntity;
     }
 
 	@RequestMapping(value = "/users/password.update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -119,18 +122,21 @@ public class UserController {
     }
     
     @RequestMapping(value = "/users/roles.update", method = RequestMethod.POST)
-    public HttpEntity<?> updateUserRoles(@RequestBody UpdateUserRoleRequest updateUserRoleRequest){
-        User user = userRepository.findByLoginName(updateUserRoleRequest.getLoginName());
-        List<String> roleNames = updateUserRoleRequest.getRoleNames();
-        //user.getRoles().clear();
-        for (String roleName : roleNames){
-            Role role = roleRepository.findByName(roleName);
-            if (role != null){
-                //user.getRoles().add(role);
-            }
-        }
-        userRepository.save(user);
-        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+    public HttpEntity<?> updateUserRoles(
+    		@RequestBody UpdateUserRoleRequest updateUserRoleRequest,
+    		HttpServletRequest request,
+    		HttpServletResponse response){
+
+    	
+		ResponseEntity<Object> responseEntity =  null;		
+		try {	        
+	        responseEntity=userService.updateUserRoles(updateUserRoleRequest,request,response);			
+		} catch (Exception e) {			
+			logger.error(e.getMessage(),e);
+			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			
+		}	
+		
+		return responseEntity;
     }
 
     @RequestMapping(value = "/users/checkloginname", method = RequestMethod.GET)
@@ -163,5 +169,22 @@ public class UserController {
         return true;
     }
 
-
+	@RequestMapping(value="/users/{uuid}",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
+	@Transactional
+	public HttpEntity<?> findOneUserById(
+			 @PathVariable String uuid,
+			 HttpServletRequest request,
+			 HttpServletResponse response){
+		
+		ResponseEntity<?> responseEntity =  null;		
+		try {	        
+	        responseEntity=userService.findOneUserById(uuid,request,response);			
+		} catch (Exception e) {			
+			logger.error(e.getMessage(),e);
+			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			
+		}	
+		
+		return responseEntity;
+		
+	}
 }

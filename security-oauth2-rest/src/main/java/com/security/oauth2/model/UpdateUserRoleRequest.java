@@ -6,7 +6,7 @@ public class UpdateUserRoleRequest {
 
     private String loginName;
 
-    private List<String> roleNames;
+    private List<String> roleCodes;
 
     public String getLoginName() {
         return loginName;
@@ -16,11 +16,12 @@ public class UpdateUserRoleRequest {
         this.loginName = loginName;
     }
 
-    public List<String> getRoleNames() {
-        return roleNames;
-    }
+	public List<String> getRoleCodes() {
+		return roleCodes;
+	}
 
-    public void setRoleNames(List<String> roleNames) {
-        this.roleNames = roleNames;
-    }
+	public void setRoleCodes(List<String> roleCodes) {
+		this.roleCodes = roleCodes;
+	}
+
 }
