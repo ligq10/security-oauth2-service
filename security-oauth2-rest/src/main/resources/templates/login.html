@@ -8,82 +8,80 @@
 <link href="../static/css/login.css" rel="stylesheet" th:href="@{/css/login.css}" />
 <!-- <script src="../static/js/lib/jquery-1.min.js" th:src="@{/js/lib/jquery-1.min.js}"></script> -->
 <script src="../static/js/login.js" th:src="@{/js/login/login.js}"></script>
-	
+
 <title>Login</title>
 </head>
 <body>
-	<form id="login-form" th:action="@{/login}" method="post"
-		class="form-horizontal">
-		<div id="logo" class="logo">
-			<div class="logo-div" >
-				<img class="imag-background" src="../static/image/logo.png" th:src="@{/image/logo.png}" />
+	<nav class="navbar navbar-default" style="border-radius: 0;height: 65px;">
+		<div class="container-fluid">
+			<div class="navbar-header" >
+				<a href="javascript:void(0);" style="padding-top: 0px;" class="navbar-brand"><img style="width: 320px" src="../static/image/shoelogo.png" th:src="@{/image/shoelogo.png}" /></a>
 			</div>
 		</div>
-		<hr class="login-hr"/>
-        <div th:if="${param.error}" class="alert alert-danger margin-center-alert">无效的用户名或密码</div>
-        
-        <div th:if="${param.logout}" class="alert alert-success margin-center-alert">退出登录成功</div>
+	</nav>
+	<div class="container-fluid" style="padding: 40px 20px;">
+		<div class="col-md-6">
+			<div style="color: #fff;font-size: 16px;">
+				<p>
+					亲爱的用户，您好！
+				</p>
+				<p style="text-indent:2em;">
+              	     中国鞋材网上线啦！
+				</p>
+                <p style="text-indent:2em;">
+                                                        用手机扫描下方二维码，即可下载App，体验指尖就能传递的温暖亲情。
+                </p>
+                <p style="text-indent:2em;">
+               	   如果是IOS用户，扫描此二维码，您将可下载体验版子女端，之后，您也可以前往AppStore获取IOS正式版。
+                </p>
+                <p style="text-indent:2em;">
+                  	 鞋材网愿与您一起，继续携手同行，推动企业不断发展！
+                </p>
 
-        <!-- <div class="alert alert-danger margin-center-alert" style="display:none;">验证码错误</div> -->
-		<div class="margin-center-username">
+			</div>
 
-				<label for="inputName" class="col-md-2-self lable-self"><img
-					src="../static/image/user.png" th:src="@{/image/user.png}" /></label>
-				<div class="col-md-10-self">
-					<input type="text" class="form-control form-control-self" id="inputName"
-						name="username" placeholder="用户名" required="true" />
-				</div>
-				<div class="cb"></div>
-		</div>
-		<div class="cb"></div>
-		<div class="form-group">
-			<div class="margin-center-password">
-				<label for="inputPassword" class="col-md-2-self lable-self"><img
-					src="../static/image/lock.png" th:src="@{/image/lock.png}" /></label>
-				<div class="col-md-10-self">
-					<input type="password" name="password" class="form-control form-control-self"
-						id="inputPassword" placeholder="密码" required="true" title="请填写密码" />
-				</div>
-				<div class="cb"></div>
-			</div>
-			<span class="forget_password"><a href="#">忘记密码？</a></span>
-		</div>
-		<!-- <div class="form-group">
-			<div class="margin-center-validata-code">
-				<div class="validate_code">
-					<input type="text" class="form-control form-control-self" id="validate_code" onkeyup="validateCode(this);" placeholder="验证码"/>
-				</div>    			
-				<div class="validate_code_display">
-                     <a href="javascript:void(0);">
-                         <div id="check_code" class="check-code-img" onclick="createCode()"></div>
-                     </a>
-                </div>	
-				<div class="cb"></div>
-			</div>
-			<span class="cannotsee"><a href="#">看不清，换一张</a></span>
-		</div>
-		<div class="form-group">
-			<div class="margin-center-btn">
-				<span  class="remember_password">
-					<input type="checkbox"/><div>自动登录</div>
-				</span>
-				<div class="cb"></div>
-			</div>
-		</div> -->
-		<div class="cb"></div>
-		<hr class="login-hr"/>
-		<div class="form-group">
-			<div class="margin-center-btn">
-				<div class="col-md-6-self">
-					<button type="submit" class="col-md-10 pull-left login-btn login-btn-color">登录</button>
-				</div>
-				<div class="col-md-6-self">
-					<!-- <button type="button" class="col-md-10  pull-right login-btn register-btn-color">注册</button> -->
-					<a th:href="${@environment.getProperty('register.guanhutong')}" type="button" class="btn col-md-10  pull-right login-btn register-btn-color">注册</a>
-				</div>
-				<div class="cb"></div>
+			<div style="margin-top: 30px;">
+				<center>
+                    <img src="../static/image/qr_code.png" th:src="@{/image/qr_code.png}" />
+                    <p style="color: #ffffff;margin-top: 18px;">
+                        Android/IOS版下载
+                    </p>
+                </center>
 			</div>
 		</div>
-	</form>
+		<div class="col-md-6" style="padding:30px;">
+			<form id="login-form" th:action="@{/login}" method="post" class="form" style="padding:30px; width: 350px;height: 400px; margin: 0 auto;background-color: #ffffff;">
+
+				<div th:if="${param.error}" class="alert alert-danger margin-center-alert">无效的用户名或密码</div>
+
+				<div th:if="${param.logout}" class="alert alert-success margin-center-alert">退出登录成功</div>
+
+				<!-- <div class="alert alert-danger margin-center-alert" style="display:none;">验证码错误</div> -->
+				<div class="form-group">
+					<h4 style="margin:0;font-weight: bold;">企业版账号登陆</h4>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<span id="lbl_inputName" class="input-group-addon"><img src="../static/image/user.png" th:src="@{/image/user.png}" style="width: 12px;border-radius: 0;" /></span>
+						<input style="border-radius: 0;height:40px;" aria-describedby="lbl_inputName" type="text" class="form-control form-control" id="inputName" name="username" placeholder="用户名" required="true" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<span id="lbl_inputPassword" class="input-group-addon"><img src="../static/image/user.png" th:src="@{/image/lock.png}" style="width: 12px;border-radius: 0;" /></span>
+						<input style="border-radius: 0;height:40px;" aria-describedby="lbl_inputPassword" type="password" name="password" class="form-control" id="inputPassword" placeholder="密码" required="true" title="请填写密码" />
+					</div>
+				</div>
+				<div class="form-group"
+					style="font-weight: bold;">
+					<button class=" col-md-12 login-btn login-btn-color" type="submit" style="margin-top: 20px;height: 40px;letter-spacing: 18px">
+					登录
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+    <footer class="footer navbar-fixed-bottom" style="height: 65px;background-color: #fff;">
+    </footer>
 </body>
 </html>

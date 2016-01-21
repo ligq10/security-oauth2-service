@@ -1,7 +1,7 @@
 body {
 	font-family: Microsoft YaHei;
 	margin: 0px;
-	background-color: #3a5066;
+	background-color: #3598DB;
 }
 a{
 	color: #28b779;
@@ -86,23 +86,13 @@ button:hover{
 	width: 385px;
 }
 
-#login-form {
-	width: 600px;
-	height: 500px;
-	margin: auto;
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
+#login-form .form-group{
+	margin-bottom: 30px;
 }
 .forget_password{
 	margin-top: 12px;
 	margin-left: 5px;
 	float: left;
-}
-#inputName, #inputPassword{
-	margin-top: 3px;
 }
 .register-btn-color{
 	line-height:23px;
@@ -116,12 +106,11 @@ button:hover{
 	background-color: #3dc58a;
 }
 .login-btn-color{
-	width: 160px;
 	height: 35px;
-	background-color: #49afcd;
+	background-color: #3598DB;
 }
 .login-btn-color:hover{
-	background-color: #62b8d2;
+	background-color: #26AAF9;
 }
 .validate_code{
 	float: left;
@@ -153,6 +142,4 @@ button:hover{
 	float: right;
 }
 
-.imag-background{
-	background-color: #ffffff; 
-}
+
