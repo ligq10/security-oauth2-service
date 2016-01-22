@@ -126,7 +126,7 @@ public class RoleController {
 		return responseEntity;
 	}
 	
-	@RequestMapping(value="/roles",method = RequestMethod.GET)
+	@RequestMapping(value="/roles",method = RequestMethod.GET, produces = "application/hal+json;charset=utf-8")
 	@Transactional
 	public HttpEntity<?> deleteRoleById(
 			@RequestParam(value = "keyword", required = true, defaultValue = "") String keyword,
