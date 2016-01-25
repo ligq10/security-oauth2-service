@@ -22,8 +22,6 @@ public class UserRoles  implements Serializable{
 
 	@Id
 	@Column(name="uuid")
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String uuid;
 
 	@Column(name = "user_id")

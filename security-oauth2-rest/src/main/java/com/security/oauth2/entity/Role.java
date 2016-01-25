@@ -12,9 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name="role")
 public class Role {
 	@Id
-	@Column(name="uuid")
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")	
+	@Column(name="uuid")	
 	private String uuid;
 	
 	@Column(name="code")
