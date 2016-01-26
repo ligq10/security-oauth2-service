@@ -11,7 +11,7 @@ public class UserResponse extends ResourceSupport{
 
     private String uuid;
     
-    private String name;
+    private String loginName;
 
     private List<RoleResponse> Roles;
     
@@ -19,9 +19,9 @@ public class UserResponse extends ResourceSupport{
 
     }  
     
-    public UserResponse(String uuid, String name) {
+    public UserResponse(String uuid, String loginName) {
         this.uuid = uuid;
-        this.name = name;
+        this.loginName = loginName;
     }
 
     public String getUuid() {
@@ -32,13 +32,13 @@ public class UserResponse extends ResourceSupport{
         this.uuid = uuid;
     }
 
-    public String getName() {
-        return name;
-    }
+	public String getLoginName() {
+		return loginName;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
 
 	public List<RoleResponse> getRoles() {
 		return Roles;
