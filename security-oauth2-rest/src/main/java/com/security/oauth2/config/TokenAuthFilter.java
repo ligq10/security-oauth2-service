@@ -61,7 +61,7 @@ public class TokenAuthFilter extends GenericFilterBean {
                 logger.warn("Warning: ", clientError);
                 return;
             } catch (Exception e) {
-                servletResponse.sendError(500, "Server error during validating your access token");
+                servletResponse.sendError(401, "Server error during validating your access token");
                 logger.error("Error: ", e);
                 return;
             }

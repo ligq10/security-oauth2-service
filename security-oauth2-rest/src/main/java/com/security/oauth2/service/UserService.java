@@ -149,5 +149,22 @@ public class UserService {
 	    userResponse.add(selfLink);
         return new ResponseEntity<Resource>(new Resource<UserResponse>(userResponse), HttpStatus.OK);		
 
+	}
+
+	public ResponseEntity<Object> delete(String uuid,
+			HttpServletRequest request, HttpServletResponse response) {
+		User user = userRepository.findOne(uuid);
+		if(null == user){
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+		
+		List<UserRoles> userRoles = userRolesRepository.findByUserId(user.getUuid());
+		if(null != userRoles && userRoles.isEmpty() == false){
+			for(UserRoles userRole : userRoles){
+				userRolesRepository.delete(userRole);
+			}
+		}
+		userRepository.delete(user);		
+		return new ResponseEntity<Object>(HttpStatus.OK);
 	}	
 }

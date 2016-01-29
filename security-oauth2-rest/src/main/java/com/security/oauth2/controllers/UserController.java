@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -72,9 +73,9 @@ public class UserController {
 
 	@RequestMapping(value = "/users/password.update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<?> updateUserPassword(@RequestBody UpdatePasswordRequest updatePasswordRequest, HttpServletRequest request){
-        if (!updatePasswordRequest.getLoginName().equals( request.getUserPrincipal().getName())){
+/*        if (!updatePasswordRequest.getLoginName().equals( request.getUserPrincipal().getName())){
             return new ResponseEntity<>("Access denied.", HttpStatus.FORBIDDEN);
-        }
+        }*/
         User user = userRepository.findByLoginName(updatePasswordRequest.getLoginName());
         if (!updatePasswordRequest.getOldPassword().equals(user.getPassword())){
             return new ResponseEntity<>("{\"code\":\"password.incorrect\", \"message\": \"Old password is incorrect\"}", HttpStatus.BAD_REQUEST);
@@ -186,5 +187,24 @@ public class UserController {
 		
 		return responseEntity;
 		
+	}
+	
+	@RequestMapping(value="/users/{uuid}",method = RequestMethod.DELETE)
+	@Transactional
+	public HttpEntity<?> deleteUserById(
+			 @PathVariable String uuid,
+			 HttpServletRequest request,
+			 HttpServletResponse response){
+
+		
+		ResponseEntity<Object> responseEntity =  null;		
+		try {	        
+	        responseEntity=userService.delete(uuid,request,response);			
+		} catch (Exception e) {			
+			logger.error(e.getMessage(),e);
+			responseEntity=new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);			
+		}	
+		
+		return responseEntity;
 	}
 }
