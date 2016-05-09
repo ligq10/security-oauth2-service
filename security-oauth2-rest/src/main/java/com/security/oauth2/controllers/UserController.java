@@ -73,11 +73,8 @@ public class UserController {
 
 	@RequestMapping(value = "/users/password.update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<?> updateUserPassword(@RequestBody UpdatePasswordRequest updatePasswordRequest, HttpServletRequest request){
-/*        if (!updatePasswordRequest.getLoginName().equals( request.getUserPrincipal().getName())){
-            return new ResponseEntity<>("Access denied.", HttpStatus.FORBIDDEN);
-        }*/
         User user = userRepository.findByLoginName(updatePasswordRequest.getLoginName());
-        if (!updatePasswordRequest.getOldPassword().equals(user.getPassword())){
+        if (updatePasswordRequest.getOldPassword().equals(user.getPassword())  == false){
             return new ResponseEntity<>("{\"code\":\"password.incorrect\", \"message\": \"Old password is incorrect\"}", HttpStatus.BAD_REQUEST);
         }
         if (StringUtils.isEmpty(updatePasswordRequest.getNewPassword())){
@@ -90,15 +87,12 @@ public class UserController {
         userRepository.save(newArrayList(user));
         return new ResponseEntity<HttpStatus>(HttpStatus.OK);
     }
-
+	
     @RequestMapping(value = "/users/password.reset", method = RequestMethod.POST)
     public HttpEntity<?> resetUserPassword(@RequestBody ResetPasswordRequest resetPasswordRequest){
         User user = userRepository.findByLoginName(resetPasswordRequest.getLoginName());
         if (StringUtils.isEmpty(resetPasswordRequest.getPassword())){
             return new ResponseEntity<>("{\"code\":\"password.empty\", \"message\": \"Password can not be empty\"}", HttpStatus.BAD_REQUEST);
-        }
-        if (user.getPassword().equals(resetPasswordRequest.getPassword())){
-            return new ResponseEntity<>("{\"code\":\"password.same\", \"message\": \"New password can not be same to the old password\"}", HttpStatus.BAD_REQUEST);
         }
         user.setPassword(resetPasswordRequest.getPassword());
         userRepository.save(newArrayList(user));
